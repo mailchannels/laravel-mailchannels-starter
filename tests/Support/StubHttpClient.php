@@ -2,9 +2,9 @@
 
 namespace Tests\Support;
 
+use GuzzleHttp\Psr7\Response;
 use MailChannelsStub\MessageStore;
 use MailChannelsStub\StubApi;
-use Nyholm\Psr7\Response;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;

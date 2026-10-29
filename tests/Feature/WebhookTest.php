@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Webhooks\PublicKeyResolver;
+use MailChannels\Client;
 use MailChannelsStub\WebhookSigner;
 use Tests\TestCase;
 
@@ -29,7 +31,7 @@ class WebhookTest extends TestCase
         $this->postWebhook($body, WebhookSigner::headers($body))->assertOk();
 
         // Make further fetches fail: the cached key is still used.
-        $this->app->instance(\MailChannels\Client::class, new \MailChannels\Client(apiKey: 'x', baseUrl: 'http://127.0.0.1:1/tx/v1'));
+        $this->app->instance(Client::class, new Client(apiKey: 'x', baseUrl: 'http://127.0.0.1:1/tx/v1'));
         $this->postWebhook($body, WebhookSigner::headers($body))->assertOk();
     }
 
@@ -37,7 +39,7 @@ class WebhookTest extends TestCase
     {
         $other = sodium_crypto_sign_keypair();
         config(['services.mailchannels.webhook_public_key' => base64_encode(sodium_crypto_sign_publickey($other))]);
-        $this->app->forgetInstance(\App\Webhooks\PublicKeyResolver::class);
+        $this->app->forgetInstance(PublicKeyResolver::class);
         $body = WebhookSigner::sampleBody();
 
         $this->postWebhook($body, WebhookSigner::headers($body, secretKey: sodium_crypto_sign_secretkey($other)))->assertOk();

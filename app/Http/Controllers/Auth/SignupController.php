@@ -8,6 +8,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
 
@@ -20,8 +21,10 @@ class SignupController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        $request->merge(['email' => Str::lower(trim((string) $request->input('email')))]);
+
         $data = $request->validate([
-            'email' => ['required', 'string', 'lowercase', 'email:rfc', 'max:254', 'unique:users,email'],
+            'email' => ['required', 'string', 'email:rfc', 'max:254', 'unique:users,email'],
             'password' => ['required', 'string', 'confirmed', Password::min(8)],
         ]);
 

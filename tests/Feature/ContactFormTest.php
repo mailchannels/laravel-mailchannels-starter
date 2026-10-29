@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 use Tests\TestCase;
 
 class ContactFormTest extends TestCase
@@ -39,6 +38,5 @@ class ContactFormTest extends TestCase
         $this->app->instance('env', 'local');
         $this->post('/contact', ['name' => 'Ada', 'email' => 'ada@example.test', 'message' => 'hi'])->assertStatus(419);
         $this->assertSame([], $this->sentPayloads());
-        $this->assertTrue(class_exists(ValidateCsrfToken::class));
     }
 }

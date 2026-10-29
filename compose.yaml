@@ -1,0 +1,30 @@
+# Local stub mode: the app plus the bundled stub Email API (no MailChannels account needed).
+#   APP_KEY=$(php artisan key:generate --show) docker compose up --build
+# App: http://127.0.0.1:3006   Stub: http://127.0.0.1:4006/_stub/messages
+services:
+  stub:
+    image: php:8.4-cli
+    working_dir: /stub
+    volumes:
+      - ./stub:/stub:ro
+    command: ["php", "-S", "0.0.0.0:4006", "server.php"]
+    ports:
+      - "4006:4006"
+
+  app:
+    build: .
+    depends_on:
+      - stub
+    ports:
+      - "3006:3006"
+    environment:
+      APP_KEY: ${APP_KEY:?Set APP_KEY, e.g. APP_KEY=$(php artisan key:generate --show)}
+      APP_URL: http://127.0.0.1:3006
+      APP_ENV: local
+      APP_DEBUG: "true"
+      LOG_CHANNEL: stderr
+      MAIL_MAILER: mailchannels
+      MAILCHANNELS_API_KEY: stub-key
+      MAILCHANNELS_API_BASE_URL: http://stub:4006/tx/v1
+      MAIL_FROM_EMAIL: noreply@example.com
+      CONTACT_TO_EMAIL: support@example.com

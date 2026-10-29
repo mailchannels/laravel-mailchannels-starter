@@ -1,0 +1,30 @@
+# Render Blueprint: https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: laravel-mailchannels-starter
+    runtime: docker
+    plan: free
+    healthCheckPath: /up
+    envVars:
+      - key: APP_KEY
+        sync: false # paste the output of `php artisan key:generate --show`
+      - key: APP_URL
+        sync: false # e.g. https://laravel-mailchannels-starter.onrender.com
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: MAIL_MAILER
+        value: mailchannels
+      - key: MAILCHANNELS_API_KEY
+        sync: false
+      - key: MAILCHANNELS_API_BASE_URL
+        value: https://api.mailchannels.net/tx/v1
+      - key: MAIL_FROM_EMAIL
+        sync: false # an address on your Domain Lockdown-authorized domain
+      - key: MAIL_FROM_NAME
+        value: MailChannels Starter
+      - key: CONTACT_TO_EMAIL
+        sync: false

@@ -79,12 +79,12 @@ class SignupVerificationTest extends TestCase
         $this->get('/dashboard')->assertRedirect('/email/verify');
     }
 
-    public function test_duplicate_email_is_rejected(): void
+    public function test_duplicate_email_is_rejected_case_insensitively(): void
     {
         User::factory()->create(['email' => 'user@example.test']);
 
         $this->post('/signup', [
-            'email' => 'user@example.test', 'password' => 'correct-horse', 'password_confirmation' => 'correct-horse',
+            'email' => 'User@Example.TEST', 'password' => 'correct-horse', 'password_confirmation' => 'correct-horse',
         ])->assertSessionHasErrors('email');
         $this->assertSame([], $this->sentPayloads());
     }
