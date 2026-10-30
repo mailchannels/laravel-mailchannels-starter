@@ -1,0 +1,3 @@
+From: {!! $senderName !!} <{!! $senderEmail !!}>
+
+{!! $messageBody !!}
