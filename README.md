@@ -104,10 +104,7 @@ The tests send through the real SDK transport and client. A PSR-18 client routes
 bundled stub in-process (`tests/Support/StubHttpClient.php`), so no network or secrets are needed. The tests
 check the exact `/send` payloads, including the token URLs.
 
-CI (`ci/github-actions/ci.yml`) runs Pint and the tests on PHP 8.4 and 8.5.
-
-> **CI workflow pending:** move `ci/github-actions/ci.yml` to `.github/workflows/ci.yml`. This needs a maintainer
-> with workflow permission.
+CI (`.github/workflows/ci.yml`) runs Pint and the tests on PHP 8.4 and 8.5.
 
 ## Deploying
 
